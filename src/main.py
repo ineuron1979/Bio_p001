@@ -1,6 +1,11 @@
 import numpy
 import scipy
+import tensorflow as tf
+
+a = 10
+
+for i in range(1):
+	print(a + i)
 
 
-for i in range(10):
-    print("hello world")
+print(tf.__version__)
