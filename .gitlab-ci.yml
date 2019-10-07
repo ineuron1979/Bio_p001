@@ -14,7 +14,7 @@ test:
   - pip install keras
   - pip install dropbox
 
-  - python ./src/time.py test
+  - python ./src/tf/lstm.py test
 
 staging:
   stage: deploy
