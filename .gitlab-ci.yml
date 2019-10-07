@@ -10,7 +10,8 @@ test:
   - free -g
   - apt-get update -qy
   - apt-get install -y python-dev python-pip
-  - pip install tensorflow
+  - pip install tensorflow==2.0.0
+  - pip install scipy
   - python ./src/main.py test
 
 staging:
