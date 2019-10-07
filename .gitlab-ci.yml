@@ -14,6 +14,7 @@ test:
   - pip install keras
   - pip install dropbox
   - pip install pandas
+  - pip install matplotlib
   #- pip install itertools
   - pip install scikit-learn
 
