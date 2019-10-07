@@ -11,7 +11,7 @@ test:
   - apt-get update -qy
   - apt-get install -y python-dev python-pip
   - pip install tensorflow
-  - python ./src/mai.py test
+  - python ./src/main.py test
 
 staging:
   stage: deploy
