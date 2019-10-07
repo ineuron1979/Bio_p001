@@ -14,7 +14,7 @@ test:
   - pip install keras
   - pip install dropbox
   - pip install pandas
-  - pip install itertools
+  #- pip install itertools
   - pip install scikit-learn
 
   - python ./src/tf/lstm.py test
