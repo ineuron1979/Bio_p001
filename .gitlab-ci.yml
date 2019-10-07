@@ -10,8 +10,10 @@ test:
   - free -g
   - apt-get update -qy
   - apt-get install -y python-dev python-pip
-  #- pip install tensorflow
-  #- pip install scipy
+  - pip install tensorflow==1.9.0
+  - pip install keras
+  - pip install dropbox
+
   - python ./src/time.py test
 
 staging:
