@@ -1,7 +1,8 @@
 import time
+from datetime import datetime
 
-while True:
-    from datetime import datetime
-    now = datetime.now()  
-    print ("%s/%s/%s %s:%s:%s" % (now.month,now.day,now.year,now.hour,now.minute,now.second)) 
+while True:   
+    now = datetime.now()
+    print (now.strftime("%m/%d/%Y %H:%M:%S"), end="", flush=True),
+    print("\r", end="", flush=True),
     time.sleep(1)
