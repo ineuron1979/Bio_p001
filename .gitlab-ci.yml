@@ -9,16 +9,16 @@ test:
   #- export DATABASE_URL=postgres://postgres:@postgres:5432/python-test-app
   - free -g
   - apt-get update -qy
-  - apt-get install -y python-dev python-pip
-  - pip install tensorflow==1.9.0
-  - pip install keras
-  - pip install dropbox
-  - pip install pandas
-  - pip install matplotlib
-  #- pip install itertools
-  - pip install scikit-learn
+  - apt-get install -y python3-dev python3-pip
+  - pip3 install tensorflow==1.9.0
+  - pip3 install keras
+  - pip3 install dropbox
+  - pip3 install pandas
+  - pip3 install matplotlib
+  #- pip3 install itertools
+  - pip3 install scikit-learn
 
-  - python ./src/tf/lstm.py test
+  - python3 ./src/tf/lstm.py test
 
 staging:
   stage: deploy
