@@ -8,9 +8,9 @@ Original file is located at
 """
 
 #!kill -9 -1
-!pip install tensorflow==1.9.0
-!pip install keras
-!pip install dropbox
+#!pip install tensorflow==1.9.0
+#!pip install keras
+#!pip install dropbox
 
 ################################################################
 
