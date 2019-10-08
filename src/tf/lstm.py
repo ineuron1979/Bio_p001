@@ -200,7 +200,7 @@ def build_model(input_size):
 ###################################################################################
 #with tf.device('/GPU:0'):
 total_dataset = load_data()
-perm_list = permute_list(param_list, 3)
+perm_list = permute_list(param_list, 4)
 
 final_result = np.zeros((len(perm_list), 77, n_seq))
 
@@ -254,7 +254,7 @@ for param in perm_list:
     model = build_model(input_size)
 
 
-    history = model.fit(trainX, trainY, shuffle=False, validation_split=0.20, batch_size=4, epochs=100, verbose=0)
+    history = model.fit(trainX, trainY, shuffle=False, validation_split=0.20, batch_size=4, epochs=200, verbose=0)
     #show_model(history)
 
     # invert predictions
