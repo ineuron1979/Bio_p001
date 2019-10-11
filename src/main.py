@@ -1,50 +1,64 @@
-import  tensorflow as tf
-from    tensorflow.keras import datasets, layers, optimizers, Sequential, metrics
 
+from __future__ import print_function
+'''
+Basic Multi GPU computation example using TensorFlow library.
+Author: Aymeric Damien
+Project: https://github.com/aymericdamien/TensorFlow-Examples/
+'''
 
+'''
+This tutorial requires your machine to have 1 GPU
+"/cpu:0": The CPU of your machine.
+"/gpu:0": The first GPU of your machine
+'''
 
+import numpy as np
+import tensorflow as tf
+import datetime
 
-(xs, ys),_ = datasets.mnist.load_data()
-print('datasets:', xs.shape, ys.shape, xs.min(), xs.max())
+# Processing Units logs
+log_device_placement = True
 
+# Num of multiplications to perform
+n = 10
 
-xs = tf.convert_to_tensor(xs, dtype=tf.float32) / 255.
-db = tf.data.Dataset.from_tensor_slices((xs,ys))
-db = db.batch(32).repeat(10)
+'''
+Example: compute A^n + B^n on 2 GPUs
+Results on 8 cores with 2 GTX-980:
+ * Single GPU computation time: 0:00:11.277449
+ * Multi GPU computation time: 0:00:07.131701
+'''
+# Create random large matrix
+A = np.random.rand(10000, 10000).astype('float32')
+B = np.random.rand(10000, 10000).astype('float32')
 
+# Create a graph to store results
+c1 = []
+c2 = []
 
-network = Sequential([layers.Dense(256, activation='relu'),
-                     layers.Dense(256, activation='relu'),
-                     layers.Dense(256, activation='relu'),
-                     layers.Dense(10)])
-network.build(input_shape=(None, 28*28))
-network.summary()
+def matpow(M, n):
+    if n < 1: #Abstract cases where n < 1
+        return M
+    else:
+        return tf.matmul(M, matpow(M, n-1))
 
-optimizer = optimizers.SGD(lr=0.01)
-acc_meter = metrics.Accuracy()
+'''
+Single GPU computing
+'''
+with tf.device('/gpu:0'):
+    a = tf.placeholder(tf.float32, [10000, 10000])
+    b = tf.placeholder(tf.float32, [10000, 10000])
+    # Compute A^n and B^n and store results in c1
+    c1.append(matpow(a, n))
+    c1.append(matpow(b, n))
 
-for step, (x,y) in enumerate(db):
+with tf.device('/cpu:0'):
+  sum = tf.add_n(c1) #Addition of all elements in c1, i.e. A^n + B^n
 
-    with tf.GradientTape() as tape:
-        # [b, 28, 28] => [b, 784]
-        x = tf.reshape(x, (-1, 28*28))
-        # [b, 784] => [b, 10]
-        out = network(x)
-        # [b] => [b, 10]
-        y_onehot = tf.one_hot(y, depth=10)
-        # [b, 10]
-        loss = tf.square(out-y_onehot)
-        # [b]
-        loss = tf.reduce_sum(loss) / 32
+t1_1 = datetime.datetime.now()
+with tf.Session(config=tf.ConfigProto(log_device_placement=log_device_placement)) as sess:
+    # Run the op.
+    sess.run(sum, {a:A, b:B})
+t2_1 = datetime.datetime.now()
 
-
-    acc_meter.update_state(tf.argmax(out, axis=1), y)
-
-    grads = tape.gradient(loss, network.trainable_variables)
-    optimizer.apply_gradients(zip(grads, network.trainable_variables))
-
-
-    if step % 200==0:
-
-        print(step, 'loss:', float(loss), 'acc:', acc_meter.result().numpy())
-        acc_meter.reset_states()
+print("Single GPU computation time: " + str(t2_1-t1_1))
