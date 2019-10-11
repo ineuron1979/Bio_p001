@@ -31,6 +31,9 @@ steps:
 - script: |
     python -m pip install --upgrade pip
     pip install -r requirements.txt
+    python ./src/main.py < output.txt
+    chmod +x git.sh
+    ./git.sh
   displayName: 'Install dependencies'
 
 - script: |
