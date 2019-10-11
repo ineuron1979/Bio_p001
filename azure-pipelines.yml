@@ -1,25 +1,10 @@
-# Python package
-- task: CondaEnvironment@0
-  inputs:
-    environmentName: 'conda'
-# Create and test a Python package on multiple Python versions.
-# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/python
-
 trigger:
 - master
-
 
 pool:
   vmImage: 'ubuntu-latest'
 strategy:
   matrix:
-    Python27:
-      python.version: '2.7'
-    Python35:
-      python.version: '3.5'
-    Python36:
-      python.version: '3.6'
     Python37:
       python.version: '3.7'
 
@@ -38,7 +23,6 @@ steps:
   displayName: 'Install dependencies'
 
 - script: |
-    conda install dropbox
     pip install pytest pytest-azurepipelines
     pytest
   displayName: 'pytest'
