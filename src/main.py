@@ -36,6 +36,7 @@ B = np.random.rand(10000, 10000).astype('float32')
 c1 = []
 c2 = []
 
+
 def matpow(M, n):
     if n < 1: #Abstract cases where n < 1
         return M
