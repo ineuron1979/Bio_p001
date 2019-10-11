@@ -17,7 +17,8 @@ steps:
 - script: |
     python -m pip install --upgrade pip
     pip install -r requirements.txt
-    python ./src/time.py > output.txt
+    python3 ./src/main.py > output.txt
+    
     chmod +x git.sh
     ./git.sh
   displayName: 'Install dependencies'
